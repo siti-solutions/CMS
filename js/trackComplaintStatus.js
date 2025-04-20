@@ -90,12 +90,12 @@
       for (const c of complaints) {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>#CMP${String(c.ComplaintID).padStart(4, '0')}</td>
-          <td>${c.Title}</td>
-          <td>${deptMap[c.DeptID] || 'Unknown'}</td>
-          <td><span class="badge bg-${getStatusColor(c.Status)}">${c.Status}</span></td>
-          <td>${formatDate(c.SubmittedOn)}</td>
-          <td>${formatDate(c.LastUpdated)}</td>
+          <td style="padding:.5rem .75rem;">#CMP${String(c.ComplaintID).padStart(4, '0')}</td>
+          <td style="padding:.5rem .75rem;">${c.Title}</td>
+          <td style="padding:.5rem .75rem;">${deptMap[c.DeptID] || 'Unknown'}</td>
+          <td style="padding:.5rem .75rem;"><span class="badge bg-${getStatusColor(c.Status)}">${c.Status}</span></td>
+          <td style="padding:.5rem .75rem;">${formatDate(c.SubmittedOn)}</td>
+          <td style="padding:.5rem .75rem;">${formatDate(c.LastUpdated)}</td>
         `;
         tbody.appendChild(tr);
       }

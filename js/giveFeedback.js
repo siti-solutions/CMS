@@ -1,8 +1,8 @@
-'use strict';
-
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('[giveFeedback.js] DOMContentLoaded');
-
+(function () {
+  if (window._giveFeedbackInitialized) return;
+  window._giveFeedbackInitialized = true;
+  'use strict';
+  console.log('[giveFeedback.js] script loaded');
   const selectEl = document.getElementById('complaintSelect');
   const formEl = document.getElementById('feedbackForm');
   const commentsEl = document.getElementById('feedbackText');
@@ -21,17 +21,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('http://localhost:3000/Complaints');
       if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
       const complaints = await res.json();
+      console.log('[giveFeedback.js] All complaints:', complaints);
+
       const resolved = complaints.filter(c =>
-        c.submittedByEmail === userEmail && c.Status === 'Resolved'
+        c.submittedByEmail === userEmail &&
+        ((c.Status || c.status || '').toLowerCase() === 'resolved')
       );
       console.log(`[giveFeedback.js] Resolved complaints count: ${resolved.length}`);
 
-      // Reset dropdown
       selectEl.innerHTML = '<option value="">Select a resolved complaint</option>';
       resolved.forEach(c => {
+        const complaintNum = c.ComplaintID ?? c.complaintID ?? c.id;
+        const titleText = c.Title ?? c.title ?? 'No Title';
         const opt = document.createElement('option');
         opt.value = c.id;
-        opt.textContent = `#CMP${String(c.ComplaintID).padStart(4, '0')} – ${c.Title}`;
+        opt.textContent = `#CMP${String(complaintNum).padStart(4, '0')} – ${titleText}`;
         selectEl.appendChild(opt);
       });
     } catch (err) {
@@ -40,8 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   loadResolvedComplaints();
-
-  // Handle feedback submission
   formEl.addEventListener('submit', async (e) => {
     e.preventDefault();
     formEl.classList.add('was-validated');
@@ -55,11 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const payload = {
-      complaintId,
-      rating: ratingEl.value,
-      comments
-    };
+    const payload = { complaintId, rating: ratingEl.value, comments };
     console.log('[giveFeedback.js] Submitting feedback:', payload);
 
     try {
@@ -76,4 +74,4 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Failed to submit feedback.');
     }
   });
-});
+})();

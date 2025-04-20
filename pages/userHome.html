@@ -11,32 +11,88 @@
   <link href="../css/style.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/litera/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .sidebar {
+      transition: width 0.3s;
+      width: 300px;
+      z-index: 1000;
+    }
+    .sidebar.collapsed {
+      width: 60px;
+      overflow: hidden;
+    }
+    .sidebar .nav-text {
+      display: inline;
+      transition: opacity 0.3s;
+    }
+    .sidebar.collapsed .nav-text {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .sidebar h5 {
+      transition: opacity 0.3s;
+    }
+    .sidebar.collapsed h5 {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .content {
+      transition: margin-left 0.3s;
+      margin-left: 200px;
+    }
+    .sidebar.collapsed + .content {
+      margin-left: 60px;
+    }
+    .sidebar a.active, .sidebar a.active:hover {
+      background: none !important;
+      color: #fff !important;
+    }
+    /* Ensure only the table scrolls, with sticky header */
+    #sub-content {
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    #sub-content table thead th {
+      position: sticky;
+      top: 0;
+      background: #f8f9fa;
+      z-index: 1;
+    }
+  </style>
 </head>
 
-<body class="bg-light">
+<body style="margin:0; font-family:'Segoe UI',sans-serif; background:#f8f9fa; overflow-x:hidden; overflow-y:hidden; height:100vh;">
 
   <div class="d-flex" style="height:100vh;">
 
-    <nav class="sidebar d-flex flex-column p-3">
-      <h5 class="text-white mb-4">User Menu</h5>
-      <a href="#" class="text-white mb-2" onclick="loadPage('trackComplaintStatus.html', this)">
-        <i class="fa fa-list-alt me-2"></i>Track Complaints
+    <nav class="sidebar d-flex flex-column p-0.5" id="sidebar">
+      <button id="toggleSidebar" style="align-self: flex-start; background:none;border:none;color:#fff;font-size:1.25rem;cursor:pointer;padding:0.5rem 1rem; margin-bottom:0.5rem;">
+        <i class="fas fa-bars"></i>
+      </button>
+      <a href="#" class="text-white" onclick="loadPage('trackComplaintStatus.html', this)" style="display:flex; align-items:center; color:#fff; text-decoration:none; padding:0.5rem 1rem; margin-bottom:0.5rem;">
+        <i class="fa fa-list-alt me-2"></i><span class="nav-text">Track Complaints</span>
       </a>
-      <a href="#" class="text-white mb-2" onclick="loadPage('fileComplaintForm.html', this)">
-        <i class="fa fa-pencil-square me-2"></i>New Grievance
+      <a href="#" class="text-white" onclick="loadPage('fileComplaintForm.html', this)" style="display:flex; align-items:center; color:#fff; text-decoration:none; padding:0.5rem 1rem; margin-bottom:0.5rem;">
+        <i class="fa fa-pencil-square me-2"></i><span class="nav-text">New Grievance</span>
       </a>
-      <a href="#" class="text-white mb-2" onclick="loadPage('giveFeedback.html', this)">
-        <i class="fa fa-comment-dots me-2"></i>Feedback
+      <a href="#" class="text-white" onclick="loadPage('giveFeedback.html', this)" style="display:flex; align-items:center; color:#fff; text-decoration:none; padding:0.5rem 1rem; margin-bottom:0.5rem;">
+        <i class="fa fa-comment-dots me-2"></i><span class="nav-text">Feedback</span>
       </a>
-      <a href="#" class="text-white mb-2" onclick="loadPage('userProfileForm.html', this)">
-        <i class="fa fa-user me-2"></i>My Profile
+      <a href="#" class="text-white" onclick="loadPage('userProfileForm.html', this)" style="display:flex; align-items:center; color:#fff; text-decoration:none; padding:0.5rem 1rem; margin-bottom:0.5rem;">
+        <i class="fa fa-user me-2"></i><span class="nav-text">My Profile</span>
       </a>
-      <a href="#" class="text-white mt-auto" onclick="logout()">
-        <i class="fa fa-sign-out-alt me-2"></i>Logout
+      <a href="#" class="text-white mt-auto" onclick="logout()" style="display:flex; align-items:center; color:#fff; text-decoration:none; padding:0.5rem 1rem; margin-bottom:0.5rem;">
+        <i class="fa fa-sign-out-alt me-2"></i><span class="nav-text">Logout</span>
       </a>
     </nav>
 
-    <div class="content flex-grow-1 d-flex flex-column p-4 overflow-hidden">
+    <div class="content flex-grow-1 d-flex flex-column p-4 overflow-hidden" id="mainContent" style="flex:1; display:flex; flex-direction:column; margin-left:300px; padding:1rem; transition:margin-left 0.3s; overflow:hidden;">
       <h2 id="welcomeMessage" class="mb-4">Welcome</h2>
       <div id="sub-content" class="flex-fill overflow-auto"></div>
     </div>
@@ -58,6 +114,19 @@
       const link = trackLink || trackLinkLower;
       if (link) {
         loadPage(link.getAttribute('onclick').match(/'([^']+)'/)[1], link);
+      }
+    });
+
+    document.getElementById('toggleSidebar').addEventListener('click', () => {
+      const sidebar = document.getElementById('sidebar');
+      const main = document.getElementById('mainContent');
+      const isCollapsed = sidebar.classList.toggle('collapsed');
+      if (isCollapsed) {
+        sidebar.style.width = '60px';
+        main.style.marginLeft = '60px';
+      } else {
+        sidebar.style.width = '300px';
+        main.style.marginLeft = '300px';
       }
     });
   </script>

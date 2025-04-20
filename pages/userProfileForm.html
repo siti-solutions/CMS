@@ -13,17 +13,9 @@
 </head>
 
 <body class="bg-light">
-  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="userHome.html">
-        <img src="../images/logo.svg" alt="Capgemini" width="100">
-      </a>
-    </div>
-  </nav>
 
-  <div class="container my-5">
-    <h3 class="mb-4 text-center">My Profile</h3>
-
+  <div class="container-fluid mb-5 px-0">
+    <h4 class="mb-4 text-start">My Profile</h4>
     <div id="profileFormWrapper">
       <form id="profileForm" class="needs-validation bg-white p-4 rounded shadow-sm" novalidate>
         <div class="row g-3 mb-3">
@@ -82,26 +74,9 @@
         </div>
 
         <div class="d-grid">
-          <button type="submit" class="btn btn-primary">Save Changes</button>
+          <button type="submit" class="btn btn-primary" onclick="saveProfile(event)">Save Changes</button>
         </div>
       </form>
-    </div>
-
-    <div id="editButtonWrapper" class="text-center d-none mt-3">
-      <button class="btn btn-secondary" onclick="showEditForm()">Edit My Profile</button>
-    </div>
-
-    <div id="profileDisplay" class="bg-white p-4 rounded shadow-sm d-none mt-4">
-      <p><strong>User ID:</strong> <span id="viewUserId"></span></p>
-      <p><strong>Email:</strong> <span id="viewEmail"></span></p>
-      <p><strong>Full Name:</strong> <span id="viewName"></span></p>
-      <p><strong>Phone:</strong> <span id="viewPhone"></span></p>
-      <p><strong>Department:</strong> <span id="viewDepartment"></span></p>
-      <p><strong>Designation:</strong> <span id="viewDesignation"></span></p>
-      <p><strong>Address:</strong> <span id="viewAddress"></span></p>
-      <div class="text-center mt-3">
-        <button class="btn btn-secondary" onclick="showEditForm()">Edit Profile</button>
-      </div>
     </div>
   </div>
 

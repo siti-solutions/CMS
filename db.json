@@ -1,23 +1,31 @@
 {
   "Users": [
     {
-      "id": 1,
+      "id": "1",
       "UserID": 1,
       "Name": "Admin User",
       "Email": "admin@example.com",
       "Password": "Admin@123",
-      "UserType": "Admin"
+      "UserType": "Admin",
+      "phone": "1234567890",
+      "department": "4",
+      "designation": "Supervisor",
+      "address": "Pune"
     },
     {
-      "id": 2,
+      "id": "2",
       "UserID": 2,
       "Name": "John Doe",
       "Email": "john@example.com",
       "Password": "John@123",
-      "UserType": "User"
+      "UserType": "User",
+      "phone": "1234567890",
+      "department": "3",
+      "designation": "TEst",
+      "address": "Pune"
     },
     {
-      "id": 3,
+      "id": "3",
       "UserID": 3,
       "Name": "Jane Smith",
       "Email": "jane.smith@example.com",
@@ -25,7 +33,7 @@
       "UserType": "User"
     },
     {
-      "id": 4,
+      "id": "4",
       "UserID": 4,
       "Name": "Alice Johnson",
       "Email": "alice.j@example.com",
@@ -33,7 +41,7 @@
       "UserType": "User"
     },
     {
-      "id": 5,
+      "id": "5",
       "UserID": 5,
       "Name": "Bob Lee",
       "Email": "bob.lee@example.com",
@@ -41,7 +49,7 @@
       "UserType": "User"
     },
     {
-      "id": 6,
+      "id": "6",
       "UserID": 6,
       "Name": "Carol King",
       "Email": "carol.king@example.com",
@@ -49,7 +57,7 @@
       "UserType": "User"
     },
     {
-      "id": 7,
+      "id": "7",
       "UserID": 7,
       "Name": "Dave Martin",
       "Email": "dave.martin@example.com",
@@ -57,7 +65,7 @@
       "UserType": "User"
     },
     {
-      "id": 8,
+      "id": "8",
       "UserID": 8,
       "Name": "Eve Davis",
       "Email": "eve.davis@example.com",
@@ -65,7 +73,7 @@
       "UserType": "User"
     },
     {
-      "id": 9,
+      "id": "9",
       "UserID": 9,
       "Name": "Frank Moore",
       "Email": "frank.moore@example.com",
@@ -73,7 +81,7 @@
       "UserType": "User"
     },
     {
-      "id": 10,
+      "id": "10",
       "UserID": 10,
       "Name": "Grace Hall",
       "Email": "grace.hall@example.com",
@@ -83,61 +91,61 @@
   ],
   "Departments": [
     {
-      "id": 1,
+      "id": "1",
       "DeptID": 1,
       "Name": "Human Resources",
       "Contact": "hr@company.com"
     },
     {
-      "id": 2,
+      "id": "2",
       "DeptID": 2,
       "Name": "Payroll and Benefits",
       "Contact": "payroll@company.com"
     },
     {
-      "id": 3,
+      "id": "3",
       "DeptID": 3,
       "Name": "Office Supplies & Admin",
       "Contact": "admin-support@company.com"
     },
     {
-      "id": 4,
+      "id": "4",
       "DeptID": 4,
       "Name": "Facilities & Maintenance",
       "Contact": "facilities@company.com"
     },
     {
-      "id": 5,
+      "id": "5",
       "DeptID": 5,
       "Name": "Training and Development",
       "Contact": "training@company.com"
     },
     {
-      "id": 6,
+      "id": "6",
       "DeptID": 6,
       "Name": "IT Support",
       "Contact": "itsupport@company.com"
     },
     {
-      "id": 7,
+      "id": "7",
       "DeptID": 7,
       "Name": "Legal & Compliance",
       "Contact": "legal@company.com"
     },
     {
-      "id": 8,
+      "id": "8",
       "DeptID": 8,
       "Name": "Employee Relations",
       "Contact": "relations@company.com"
     },
     {
-      "id": 9,
+      "id": "9",
       "DeptID": 9,
       "Name": "Security & Access Control",
       "Contact": "security@company.com"
     },
     {
-      "id": 10,
+      "id": "10",
       "DeptID": 10,
       "Name": "Travel and Reimbursements",
       "Contact": "travel@company.com"
@@ -145,350 +153,350 @@
   ],
   "ComplaintTypes": [
     {
-      "id": 1,
+      "id": "1",
       "CTID": 1,
       "ComplaintType": "No Response from HR",
       "severity": "High",
       "DeptID": 1
     },
     {
-      "id": 2,
+      "id": "2",
       "CTID": 2,
       "ComplaintType": "Leave Not Approved",
       "severity": "Medium",
       "DeptID": 1
     },
     {
-      "id": 3,
+      "id": "3",
       "CTID": 3,
       "ComplaintType": "Incorrect Personal Info",
       "severity": "Medium",
       "DeptID": 1
     },
     {
-      "id": 4,
+      "id": "4",
       "CTID": 4,
       "ComplaintType": "Transfer Request Ignored",
       "severity": "Medium",
       "DeptID": 1
     },
     {
-      "id": 5,
+      "id": "5",
       "CTID": 5,
       "ComplaintType": "Delayed Exit Formalities",
       "severity": "High",
       "DeptID": 1
     },
     {
-      "id": 6,
+      "id": "6",
       "CTID": 6,
       "ComplaintType": "Salary Delay",
       "severity": "High",
       "DeptID": 2
     },
     {
-      "id": 7,
+      "id": "7",
       "CTID": 7,
       "ComplaintType": "Incorrect Tax Deductions",
       "severity": "Medium",
       "DeptID": 2
     },
     {
-      "id": 8,
+      "id": "8",
       "CTID": 8,
       "ComplaintType": "Bonus Not Credited",
       "severity": "Medium",
       "DeptID": 2
     },
     {
-      "id": 9,
+      "id": "9",
       "CTID": 9,
       "ComplaintType": "PF Account Issues",
       "severity": "Medium",
       "DeptID": 2
     },
     {
-      "id": 10,
+      "id": "10",
       "CTID": 10,
       "ComplaintType": "Reimbursement Not Received",
       "severity": "High",
       "DeptID": 2
     },
     {
-      "id": 11,
+      "id": "11",
       "CTID": 11,
       "ComplaintType": "Missing Office Supplies",
       "severity": "Low",
       "DeptID": 3
     },
     {
-      "id": 12,
+      "id": "12",
       "CTID": 12,
       "ComplaintType": "Projector Not Working",
       "severity": "Medium",
       "DeptID": 3
     },
     {
-      "id": 13,
+      "id": "13",
       "CTID": 13,
       "ComplaintType": "Furniture Request Pending",
       "severity": "Medium",
       "DeptID": 3
     },
     {
-      "id": 14,
+      "id": "14",
       "CTID": 14,
       "ComplaintType": "Pantry Supplies Unavailable",
       "severity": "Low",
       "DeptID": 3
     },
     {
-      "id": 15,
+      "id": "15",
       "CTID": 15,
       "ComplaintType": "Stationery Not Restocked",
       "severity": "Low",
       "DeptID": 3
     },
     {
-      "id": 16,
+      "id": "16",
       "CTID": 16,
       "ComplaintType": "Improper Seating",
       "severity": "Low",
       "DeptID": 4
     },
     {
-      "id": 17,
+      "id": "17",
       "CTID": 17,
       "ComplaintType": "Office AC not working",
       "severity": "High",
       "DeptID": 4
     },
     {
-      "id": 18,
+      "id": "18",
       "CTID": 18,
       "ComplaintType": "Broken Chairs",
       "severity": "Medium",
       "DeptID": 4
     },
     {
-      "id": 19,
+      "id": "19",
       "CTID": 19,
       "ComplaintType": "Water Leakage",
       "severity": "High",
       "DeptID": 4
     },
     {
-      "id": 20,
+      "id": "20",
       "CTID": 20,
       "ComplaintType": "Lift Not Working",
       "severity": "High",
       "DeptID": 4
     },
     {
-      "id": 21,
+      "id": "21",
       "CTID": 21,
       "ComplaintType": "Inadequate Training",
       "severity": "Medium",
       "DeptID": 5
     },
     {
-      "id": 22,
+      "id": "22",
       "CTID": 22,
       "ComplaintType": "No Onboarding Session",
       "severity": "Medium",
       "DeptID": 5
     },
     {
-      "id": 23,
+      "id": "23",
       "CTID": 23,
       "ComplaintType": "Lack of Course Material",
       "severity": "Low",
       "DeptID": 5
     },
     {
-      "id": 24,
+      "id": "24",
       "CTID": 24,
       "ComplaintType": "Workshop Not Scheduled",
       "severity": "Low",
       "DeptID": 5
     },
     {
-      "id": 25,
+      "id": "25",
       "CTID": 25,
       "ComplaintType": "Trainer Unavailable",
       "severity": "Medium",
       "DeptID": 5
     },
     {
-      "id": 26,
+      "id": "26",
       "CTID": 26,
       "ComplaintType": "System Crash",
       "severity": "High",
       "DeptID": 6
     },
     {
-      "id": 27,
+      "id": "27",
       "CTID": 27,
       "ComplaintType": "Laptop Not Working",
       "severity": "High",
       "DeptID": 6
     },
     {
-      "id": 28,
+      "id": "28",
       "CTID": 28,
       "ComplaintType": "Internet Connectivity Issue",
       "severity": "High",
       "DeptID": 6
     },
     {
-      "id": 29,
+      "id": "29",
       "CTID": 29,
       "ComplaintType": "Software Access Denied",
       "severity": "Medium",
       "DeptID": 6
     },
     {
-      "id": 30,
+      "id": "30",
       "CTID": 30,
       "ComplaintType": "Slow System Performance",
       "severity": "Medium",
       "DeptID": 6
     },
     {
-      "id": 31,
+      "id": "31",
       "CTID": 31,
       "ComplaintType": "Policy Violation",
       "severity": "High",
       "DeptID": 7
     },
     {
-      "id": 32,
+      "id": "32",
       "CTID": 32,
       "ComplaintType": "Code of Conduct Breach",
       "severity": "Medium",
       "DeptID": 7
     },
     {
-      "id": 33,
+      "id": "33",
       "CTID": 33,
       "ComplaintType": "Compliance Audit Issue",
       "severity": "Medium",
       "DeptID": 7
     },
     {
-      "id": 34,
+      "id": "34",
       "CTID": 34,
       "ComplaintType": "Data Privacy Violation",
       "severity": "High",
       "DeptID": 7
     },
     {
-      "id": 35,
+      "id": "35",
       "CTID": 35,
       "ComplaintType": "Vendor Legal Threat",
       "severity": "High",
       "DeptID": 7
     },
     {
-      "id": 36,
+      "id": "36",
       "CTID": 36,
       "ComplaintType": "Unfair Treatment",
       "severity": "Medium",
       "DeptID": 8
     },
     {
-      "id": 37,
+      "id": "37",
       "CTID": 37,
       "ComplaintType": "Harassment Complaint",
       "severity": "High",
       "DeptID": 8
     },
     {
-      "id": 38,
+      "id": "38",
       "CTID": 38,
       "ComplaintType": "Bias in Appraisal",
       "severity": "Medium",
       "DeptID": 8
     },
     {
-      "id": 39,
+      "id": "39",
       "CTID": 39,
       "ComplaintType": "Team Conflict",
       "severity": "Medium",
       "DeptID": 8
     },
     {
-      "id": 40,
+      "id": "40",
       "CTID": 40,
       "ComplaintType": "Manager Misconduct",
       "severity": "High",
       "DeptID": 8
     },
     {
-      "id": 41,
+      "id": "41",
       "CTID": 41,
       "ComplaintType": "Access Card not working",
       "severity": "High",
       "DeptID": 9
     },
     {
-      "id": 42,
+      "id": "42",
       "CTID": 42,
       "ComplaintType": "Biometric Not Working",
       "severity": "High",
       "DeptID": 9
     },
     {
-      "id": 43,
+      "id": "43",
       "CTID": 43,
       "ComplaintType": "Gate Pass Delay",
       "severity": "Medium",
       "DeptID": 9
     },
     {
-      "id": 44,
+      "id": "44",
       "CTID": 44,
       "ComplaintType": "Visitor Entry Not Allowed",
       "severity": "Medium",
       "DeptID": 9
     },
     {
-      "id": 45,
+      "id": "45",
       "CTID": 45,
       "ComplaintType": "Lost Access Card",
       "severity": "Medium",
       "DeptID": 9
     },
     {
-      "id": 46,
+      "id": "46",
       "CTID": 46,
       "ComplaintType": "Incorrect Reimbursement",
       "severity": "Medium",
       "DeptID": 10
     },
     {
-      "id": 47,
+      "id": "47",
       "CTID": 47,
       "ComplaintType": "Travel Reimbursement Delay",
       "severity": "Medium",
       "DeptID": 10
     },
     {
-      "id": 48,
+      "id": "48",
       "CTID": 48,
       "ComplaintType": "Ticket Booking Error",
       "severity": "Medium",
       "DeptID": 10
     },
     {
-      "id": 49,
+      "id": "49",
       "CTID": 49,
       "ComplaintType": "Cab Not Provided",
       "severity": "Medium",
       "DeptID": 10
     },
     {
-      "id": 50,
+      "id": "50",
       "CTID": 50,
       "ComplaintType": "Hotel Booking Missing",
       "severity": "High",
@@ -517,7 +525,7 @@
       "CTID": 2,
       "Title": "BSOD",
       "Description": "My screen went blue while using tally!",
-      "Status": "Escalated",
+      "Status": "Resolved",
       "SubmittedOn": "2025-04-20",
       "LastUpdated": "2025-04-20",
       "submittedBy": "user",
@@ -531,12 +539,152 @@
       "CTID": 2,
       "Title": "System automatic reboot",
       "Description": "Test",
-      "Status": "Pending",
+      "Status": "Resolved",
       "SubmittedOn": "2025-04-20",
       "LastUpdated": "2025-04-20",
       "submittedBy": "user",
       "submittedByEmail": "john@example.com",
       "submittedByName": "John Doe"
+    },
+    {
+      "id": "4719",
+      "ComplaintID": 4,
+      "DeptID": 3,
+      "CTID": 14,
+      "Title": "Pantry Supplies Unavailable",
+      "Description": "The pantry has been out of snacks for a week.",
+      "Status": "Open",
+      "SubmittedOn": "2025-04-21",
+      "LastUpdated": "2025-04-21",
+      "submittedBy": "user",
+      "submittedByEmail": "eve.davis@example.com",
+      "submittedByName": "Eve Davis"
+    },
+    {
+      "id": "5a3c",
+      "ComplaintID": 5,
+      "DeptID": 3,
+      "CTID": 12,
+      "Title": "Projector Not Working in Conference Room",
+      "Description": "Projector in room 301 does not turn on.",
+      "Status": "In Progress",
+      "SubmittedOn": "2025-04-19",
+      "LastUpdated": "2025-04-22",
+      "submittedBy": "user",
+      "submittedByEmail": "alice.j@example.com",
+      "submittedByName": "Alice Johnson"
+    },
+    {
+      "id": "7f4d",
+      "ComplaintID": 6,
+      "DeptID": 6,
+      "CTID": 27,
+      "Title": "Laptop Not Working",
+      "Description": "My laptop frequently crashes during work hours.",
+      "Status": "Open",
+      "SubmittedOn": "2025-04-18",
+      "LastUpdated": "2025-04-18",
+      "submittedBy": "user",
+      "submittedByEmail": "frank.moore@example.com",
+      "submittedByName": "Frank Moore"
+    },
+    {
+      "id": "8e2a",
+      "ComplaintID": 7,
+      "DeptID": 6,
+      "CTID": 28,
+      "Title": "Internet Connectivity Issue",
+      "Description": "Office Wi-Fi disconnects every hour.",
+      "Status": "Resolved",
+      "SubmittedOn": "2025-04-20",
+      "LastUpdated": "2025-04-20",
+      "submittedBy": "user",
+      "submittedByEmail": "carol.king@example.com",
+      "submittedByName": "Carol King"
+    },
+    {
+      "id": "9b6f",
+      "ComplaintID": 8,
+      "DeptID": 4,
+      "CTID": 19,
+      "Title": "Water Leakage in Building A",
+      "Description": "There's water leakage near the entrance of building A.",
+      "Status": "Escalated",
+      "SubmittedOn": "2025-04-17",
+      "LastUpdated": "2025-04-20",
+      "submittedBy": "user",
+      "submittedByEmail": "dave.martin@example.com",
+      "submittedByName": "Dave Martin"
+    },
+    {
+      "id": "abc1",
+      "ComplaintID": 9,
+      "DeptID": 5,
+      "CTID": 21,
+      "Title": "Inadequate Training",
+      "Description": "The training session was too short and lacked detail.",
+      "Status": "Open",
+      "SubmittedOn": "2025-04-16",
+      "LastUpdated": "2025-04-16",
+      "submittedBy": "user",
+      "submittedByEmail": "grace.hall@example.com",
+      "submittedByName": "Grace Hall"
+    },
+    {
+      "id": "def2",
+      "ComplaintID": 10,
+      "DeptID": 2,
+      "CTID": 6,
+      "Title": "Salary Delay for April",
+      "Description": "My salary for April hasn't been credited yet.",
+      "Status": "In Progress",
+      "SubmittedOn": "2025-04-22",
+      "LastUpdated": "2025-04-22",
+      "submittedBy": "user",
+      "submittedByEmail": "john@example.com",
+      "submittedByName": "John Doe"
+    },
+    {
+      "id": "fed3",
+      "ComplaintID": 11,
+      "DeptID": 1,
+      "CTID": 2,
+      "Title": "Leave Not Approved",
+      "Description": "My leave request for next week was ignored.",
+      "Status": "Open",
+      "SubmittedOn": "2025-04-21",
+      "LastUpdated": "2025-04-21",
+      "submittedBy": "user",
+      "submittedByEmail": "jane.smith@example.com",
+      "submittedByName": "Jane Smith"
+    },
+    {
+      "id": "cba4",
+      "ComplaintID": 12,
+      "DeptID": 7,
+      "CTID": 32,
+      "Title": "Code of Conduct Breach",
+      "Description": "HR hasn't responded to my harassment report.",
+      "Status": "Open",
+      "SubmittedOn": "2025-04-15",
+      "LastUpdated": "2025-04-15",
+      "submittedBy": "user",
+      "submittedByEmail": "bob.lee@example.com",
+      "submittedByName": "Bob Lee"
+    }
+  ],
+  "Feedback": [
+    {
+      "id": "af27",
+      "complaintId": "0fbc",
+      "rating": "4",
+      "comments": "Test"
+    },
+    {
+      "id": "9243",
+      "complaintId": "2dc7",
+      "rating": "4",
+      "comments": "Test"
     }
   ]
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100 overflow-hidden">
 
 <head>
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
@@ -13,18 +13,10 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 </head>
 
-<body class="bg-light d-flex flex-column h-100">
+<body class="bg-light d-flex flex-column h-100 overflow-hidden">
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="userHome.html">
-        <img src="../images/logo.svg" alt="Capgemini Logo" width="100" />
-      </a>
-    </div>
-  </nav>
-
-  <main class="container my-4 flex-fill d-flex justify-content-center align-items-start">
-    <div class="card shadow-sm w-100" style="max-width: 800px;">
+  <main class="flex-fill d-flex justify-content-center align-items-start px-0">
+    <div class="card shadow-sm w-100">
       <div class="card-body p-4">
         <h3 class="card-title mb-4 text-center">
           <i class="bi bi-pencil-square me-2"></i>File a New Complaint
@@ -58,11 +50,6 @@
             <textarea id="description" class="form-control" rows="5" placeholder="Describe the issue..."
               required></textarea>
             <div class="invalid-feedback">Please provide a description.</div>
-          </div>
-
-          <div class="mb-3 d-none" id="uploadSection">
-            <label for="file" class="form-label">Upload Screenshot/Document</label>
-            <input type="file" id="file" class="form-control">
           </div>
 
           <div class="d-grid">

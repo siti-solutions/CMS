@@ -1,7 +1,3 @@
-
-
-// js/userProfileForm.js
-
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,27 +6,33 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Retrieve logged-in user email
-const userEmail = localStorage.getItem('userEmail');
-const apiUrl = `http://localhost:3000/Users?email=${encodeURIComponent(userEmail)}`;
+const userEmail = sessionStorage.getItem('userEmail');
 let currentUserId = null;
+function populateFormFields(user = {}) {
+  document.getElementById('userId').value = user.id || '';
+  document.getElementById('email').value = user.Email || userEmail;
+  document.getElementById('name').value = user.Name || '';
+  document.getElementById('phone').value = user.phone || '';
+  document.getElementById('department').value = user.department || '';
+  document.getElementById('designation').value = user.designation || '';
+  document.getElementById('address').value = user.address || '';
+}
+// Immediately invoke to populate fields on script load
+(function() {
+  checkProfileStatus();
+})();
 
 async function checkProfileStatus() {
   try {
-    const res = await fetch(apiUrl);
+    const res = await fetch('http://localhost:3000/Users');
     const users = await res.json();
-    if (!users.length) {
-      showForm();
-      return;
+    const user = users.find(u => u.Email.toLowerCase() === userEmail.toLowerCase());
+    if (user) {
+      currentUserId = user.id;
+      populateFormFields(user);
     }
-    const user = users[0];
-    currentUserId = user.id;
-    const requiredFields = ['name', 'phone', 'department', 'designation', 'address'];
-    const incomplete = requiredFields.some(f => !user[f] || !user[f].trim());
-    if (incomplete) {
-      showForm(user);
-    } else {
-      showProfile(user);
-    }
+    // Always show edit form directly
+    showForm(user);
   } catch (err) {
     console.error('[userProfileForm.js] Error loading profile:', err);
   }
@@ -41,33 +43,7 @@ function showForm(user = {}) {
   document.getElementById('editButtonWrapper').classList.add('d-none');
   document.getElementById('profileDisplay').classList.add('d-none');
 
-  document.getElementById('userId').value = user.id || '';
-  document.getElementById('email').value = user.email || userEmail;
-  document.getElementById('name').value = user.name || '';
-  document.getElementById('phone').value = user.phone || '';
-  document.getElementById('department').value = user.department || '';
-  document.getElementById('designation').value = user.designation || '';
-  document.getElementById('address').value = user.address || '';
-}
-
-function showEditForm() {
-  document.getElementById('profileFormWrapper').classList.remove('d-none');
-  document.getElementById('editButtonWrapper').classList.add('d-none');
-  document.getElementById('profileDisplay').classList.add('d-none');
-}
-
-function showProfile(user) {
-  document.getElementById('profileFormWrapper').classList.add('d-none');
-  document.getElementById('editButtonWrapper').classList.remove('d-none');
-  document.getElementById('profileDisplay').classList.remove('d-none');
-
-  document.getElementById('viewUserId').textContent = user.id || '';
-  document.getElementById('viewEmail').textContent = user.email;
-  document.getElementById('viewName').textContent = user.name;
-  document.getElementById('viewPhone').textContent = user.phone;
-  document.getElementById('viewDepartment').textContent = user.department;
-  document.getElementById('viewDesignation').textContent = user.designation || '';
-  document.getElementById('viewAddress').textContent = user.address || '';
+  populateFormFields(user);
 }
 
 async function saveProfile(event) {
@@ -77,27 +53,36 @@ async function saveProfile(event) {
     form.classList.add('was-validated');
     return;
   }
-
   const payload = {
-    email: document.getElementById('email').value.trim(),
-    name: document.getElementById('name').value.trim(),
+    Email: document.getElementById('email').value.trim(),
+    Name: document.getElementById('name').value.trim(),
     phone: document.getElementById('phone').value.trim(),
     department: document.getElementById('department').value,
     designation: document.getElementById('designation').value.trim(),
     address: document.getElementById('address').value.trim()
   };
-
-  const url = currentUserId
-    ? `http://localhost:3000/Users/${currentUserId}`
-    : 'http://localhost:3000/Users';
-  const method = currentUserId ? 'PATCH' : 'POST';
-
   try {
-    await fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+    // Search for existing user by email using json-server query
+    const searchRes = await fetch(`http://localhost:3000/Users?Email=${encodeURIComponent(payload.Email)}`);
+    const users = await searchRes.json();
+    if (users.length > 0) {
+      currentUserId = users[0].id;
+      // Update existing user record
+      await fetch(`http://localhost:3000/Users/${currentUserId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } else {
+      // Create new user record
+      const createRes = await fetch('http://localhost:3000/Users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const newUser = await createRes.json();
+      currentUserId = newUser.id;
+    }
     checkProfileStatus();
   } catch (err) {
     console.error('[userProfileForm.js] Error saving profile:', err);

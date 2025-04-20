@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100 overflow-hidden">
 
 <head>
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
@@ -13,23 +13,15 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 </head>
 
-<body class="bg-light d-flex flex-column h-100">
+<body class="bg-light d-flex flex-column h-100 overflow-hidden">
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="userHome.html">
-        <img src="../images/logo.svg" alt="Capgemini Logo" width="100" />
-      </a>
-    </div>
-  </nav>
-
-  <main class="container my-4 flex-fill d-flex flex-column">
-    <h3 class="mb-3 text-center">We Value Your Feedback</h3>
+  <main class="flex-fill d-flex flex-column align-items-start px-0">
+    <h4 class="mb-3 text-center">We Value Your Feedback</h4>
     <p class="text-center text-muted mb-4">
       Help us improve by sharing your experience with the complaint resolution process.
     </p>
 
-    <div class="card mx-auto" style="max-width: 600px;">
+    <div class="card shadow-sm w-100">
       <div class="card-body p-4">
         <form id="feedbackForm" novalidate class="needs-validation">
           <div class="mb-3">
@@ -64,7 +56,7 @@
                 <label class="form-check-label" for="rate5">5</label>
               </div>
             </div>
-            <div class="invalid-feedback d-block">Please provide a rating.</div>
+            <div class="invalid-feedback">Please provide a rating.</div>
           </fieldset>
 
           <div class="mb-3">
@@ -83,7 +75,7 @@
   </main>
 
   <!-- Feedback logic -->
-  <script src="../js/GiveFeedback.js"></script>
+  <script src="../js/giveFeedback.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
