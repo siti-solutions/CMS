@@ -1,4 +1,4 @@
- 'use strict';
+'use strict';
  
 let currentPage = 1;
 const pageSize = 10;
@@ -160,6 +160,7 @@ async function renderComplaintTable() {
     tr.innerHTML = `
       <td>#CMP${String(c.ComplaintID).padStart(4, '0')}</td>
       <td>${c.Title}</td>
+      <td>${c.submittedByName || c.submittedByEmail || 'Unknown'}</td>
       <td>
         <select class="form-select form-select-sm status-dropdown" data-id="${c.id}">
           <option value="Submitted" ${c.Status==='Submitted'?'selected':''}>Submitted</option>
