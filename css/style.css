@@ -1,0 +1,119 @@
+
+
+/* Global Styles */
+body, html {
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', sans-serif;
+}
+/* Sidebar */
+.sidebar {
+  width: 200px;
+  background-color: #0d6efd;
+  color: #fff;
+  padding-top: 1rem;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+}
+.sidebar a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  padding: 0.75rem 1rem;
+}
+.sidebar a:hover, .sidebar a.active {
+  background-color: #0b5ed7;
+}
+
+/* Main Content */
+.content {
+  margin-left: 200px;
+  padding: 1.5rem;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Utility */
+h2, h3, h4 {
+  margin-top: 0;
+}
+
+/* Dashboard Summary Cards */
+.summary {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.card-small {
+  flex: 1;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* Split Layout */
+.main-split {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+}
+
+/* Graphs Panel */
+.graphs {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.graph {
+  flex: 1;
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+/* Table Panel */
+.table-wrap {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+.filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.table-container {
+  flex: 1;
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  overflow-y: auto;
+}
+
+/* Index Page Text Sections */
+.text-section {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+/* Utility Buttons */
+.btn-custom {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+}

@@ -1,0 +1,144 @@
+{
+  "Users": [
+    {
+      "id": 1,
+      "UserID": 1,
+      "Name": "Admin User",
+      "Email": "admin@example.com",
+      "Password": "Admin@123",
+      "UserType": "Admin"
+    },
+    {
+      "id": 2,
+      "UserID": 2,
+      "Name": "John Doe",
+      "Email": "john@example.com",
+      "Password": "John@123",
+      "UserType": "User"
+    },
+    {
+      "id": 3,
+      "UserID": 3,
+      "Name": "Jane Smith",
+      "Email": "jane.smith@example.com",
+      "Password": "Jane@123",
+      "UserType": "User"
+    },
+    {
+      "id": 4,
+      "UserID": 4,
+      "Name": "Alice Johnson",
+      "Email": "alice.j@example.com",
+      "Password": "Alice@123",
+      "UserType": "User"
+    },
+    {
+      "id": 5,
+      "UserID": 5,
+      "Name": "Bob Lee",
+      "Email": "bob.lee@example.com",
+      "Password": "Bob@123",
+      "UserType": "User"
+    },
+    {
+      "id": 6,
+      "UserID": 6,
+      "Name": "Carol King",
+      "Email": "carol.king@example.com",
+      "Password": "Carol@123",
+      "UserType": "User"
+    },
+    {
+      "id": 7,
+      "UserID": 7,
+      "Name": "Dave Martin",
+      "Email": "dave.martin@example.com",
+      "Password": "Dave@123",
+      "UserType": "User"
+    },
+    {
+      "id": 8,
+      "UserID": 8,
+      "Name": "Eve Davis",
+      "Email": "eve.davis@example.com",
+      "Password": "Eve@123",
+      "UserType": "User"
+    },
+    {
+      "id": 9,
+      "UserID": 9,
+      "Name": "Frank Moore",
+      "Email": "frank.moore@example.com",
+      "Password": "Frank@123",
+      "UserType": "User"
+    },
+    {
+      "id": 10,
+      "UserID": 10,
+      "Name": "Grace Hall",
+      "Email": "grace.hall@example.com",
+      "Password": "Grace@123",
+      "UserType": "User"
+    }
+  ],
+  "Departments": [
+    {
+      "id": 1,
+      "DeptID": 1,
+      "Name": "Human Resources",
+      "Contact": "hr@company.com"
+    },
+    {
+      "id": 2,
+      "DeptID": 2,
+      "Name": "IT Support",
+      "Contact": "itsupport@company.com"
+    }
+  ],
+  "ComplaintTypes": [
+    {
+      "id": 1,
+      "CTID": 1,
+      "ComplaintType": "Salary Delay",
+      "severity": "High",
+      "DeptID": 1
+    },
+    {
+      "id": 2,
+      "CTID": 2,
+      "ComplaintType": "System Crash",
+      "severity": "High",
+      "DeptID": 2
+    }
+  ],
+  "Complaints": [
+    {
+      "id": "5304",
+      "ComplaintID": 1,
+      "DeptID": 1,
+      "CTID": 1,
+      "Title": "Delayed Salary",
+      "Description": "My salary has been delayed by 3 days!",
+      "Status": "Resolved",
+      "SubmittedOn": "2025-04-20",
+      "LastUpdated": "2025-04-20",
+      "submittedBy": "user",
+      "submittedByEmail": "john@example.com",
+      "submittedByName": "John Doe"
+    },
+    {
+      "id": "0fbc",
+      "ComplaintID": 2,
+      "DeptID": 2,
+      "CTID": 2,
+      "Title": "BSOD",
+      "Description": "My screen went blue while using tally!",
+      "Status": "Pending",
+      "SubmittedOn": "2025-04-20",
+      "LastUpdated": "2025-04-20",
+      "submittedBy": "user",
+      "submittedByEmail": "john@example.com",
+      "submittedByName": "John Doe"
+    }
+  ]
+}

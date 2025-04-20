@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard | Capgemini CMS</title>
+  <link href="../css/style.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/litera/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+</head>
+
+<body>
+
+  <div class="d-flex" style="height:100vh;">
+
+    <nav class="sidebar d-flex flex-column p-3">
+      <h5 class="text-white mb-4">Admin Menu</h5>
+      <a href="adminHome.html" class="text-white mb-2">
+        <i class="fas fa-chart-line me-2"></i>Dashboard
+      </a>
+      <a href="userProfileForm.html" class="text-white mb-2">
+        <i class="fas fa-user me-2"></i>My Profile
+      </a>
+      <a href="#" class="text-white mt-auto" onclick="logout()">
+        <i class="fas fa-sign-out-alt me-2"></i>Logout
+      </a>
+    </nav>
+
+    <div class="content flex-grow-1 d-flex flex-column p-4 overflow-hidden">
+      <h2 class="mb-4">Admin Dashboard</h2>
+      <div class="summary d-flex gap-3 mb-4">
+        <div class="card-small">Total Complaints<br><strong id="totalCount">0</strong></div>
+        <div class="card-small">Resolved<br><strong id="resolvedCount">0</strong></div>
+        <div class="card-small">Pending<br><strong id="pendingCount">0</strong></div>
+        <div class="card-small">Escalated<br><strong id="escalatedCount">0</strong></div>
+      </div>
+      <div class="main-split d-flex gap-3 flex-fill" style="height:100%;">
+        <div class="graphs d-flex flex-column gap-3" style="width:50%; height:100%;">
+          <div class="graph" style="height:150px;">
+            <canvas id="deptChart" style="width:100%; height:100%;"></canvas>
+          </div>
+          <div class="graph" style="height:300px; padding-bottom:30px;">
+            <canvas id="statusChart" style="width:100%; height:100%;"></canvas>
+          </div>
+        </div>
+        <div class="table-wrap d-flex flex-column" style="width:50%; height:100%;">
+          <div class="filter-bar d-flex gap-2 mb-2">
+            <input id="searchInput" type="text" class="form-control form-control-sm" placeholder="Search...">
+            <select id="statusFilter" class="form-select form-select-sm">
+              <option value="">All Status</option>
+              <option value="Submitted">Submitted</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Resolved">Resolved</option>
+              <option value="Escalated">Escalated</option>
+            </select>
+          </div>
+          <div class="table-container flex-fill overflow-auto h-100">
+            <table class="table table-sm table-bordered mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Status</th>
+                  <th>Last Updated</th>
+                </tr>
+              </thead>
+              <tbody id="complaintRows"></tbody>
+            </table>
+          </div>
+          <nav aria-label="Table pagination">
+            <ul class="pagination pagination-sm justify-content-center mt-2" id="tablePagination">
+              <li class="page-item" id="prevPage">
+                <a class="page-link" href="#" aria-label="Previous">&laquo;</a>
+              </li>
+              <!-- JS will populate page number links here -->
+              <li class="page-item" id="nextPage">
+                <a class="page-link" href="#" aria-label="Next">&raquo;</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/adminHome.js"></script>
+  <script src="../js/loadPage.js"></script>
+  <script src="../js/login.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
