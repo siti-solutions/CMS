@@ -1,91 +1,126 @@
-'use strict';
+'use strict';                                                     // Enable strict mode
 
+/* ------------------------------------------------------------------ */
+/*                     DOM READY → bootstrap UI                        */
+/* ------------------------------------------------------------------ */
 document.addEventListener('DOMContentLoaded', () => {
-  checkProfileStatus();
-  document.getElementById('profileForm').addEventListener('submit', saveProfile);
+  checkProfileStatus();                                            // Load existing data
+  document.getElementById('profileForm')                           // <form id="profileForm">
+          .addEventListener('submit', saveProfile);                // Attach submit handler
 });
 
-// Retrieve logged-in user email
-const userEmail = sessionStorage.getItem('userEmail');
-let currentUserId = null;
+/* ------------------------------------------------------------------ */
+/*                   Globals & session information                     */
+/* ------------------------------------------------------------------ */
+const userEmail      = sessionStorage.getItem('userEmail');        // Logged‑in email
+let   currentUserId  = null;                                       // Will store user id after fetch
+
+/* ------------------------------------------------------------------ */
+/*                 Utility: populate form with user data              */
+/* ------------------------------------------------------------------ */
+/**
+ * Fill form fields with given user object (or blanks).
+ * @param {Object} user – User record from backend (keys: id, Email, Name, …)
+ */
 function populateFormFields(user = {}) {
-  document.getElementById('userId').value = user.id || '';
-  document.getElementById('email').value = user.Email || userEmail;
-  document.getElementById('name').value = user.Name || '';
-  document.getElementById('phone').value = user.phone || '';
-  document.getElementById('department').value = user.department || '';
+  document.getElementById('userId').value      = user.id   || '';   // Hidden id field
+  document.getElementById('email').value       = user.Email || userEmail;
+  document.getElementById('name').value        = user.Name  || '';
+  document.getElementById('phone').value       = user.phone || '';
+  document.getElementById('department').value  = user.department || '';
   document.getElementById('designation').value = user.designation || '';
-  document.getElementById('address').value = user.address || '';
+  document.getElementById('address').value     = user.address || '';
 }
-// Immediately invoke to populate fields on script load
-(function() {
-  checkProfileStatus();
+
+/* ------------------------------------------------------------------ */
+/*                      Initial check on script load                   */
+/* ------------------------------------------------------------------ */
+(function immediateCheck() {
+  checkProfileStatus();                                            // Auto‑populate immediately
 })();
 
+/* ------------------------------------------------------------------ */
+/*        Fetch user list → find current user → show edit form        */
+/* ------------------------------------------------------------------ */
 async function checkProfileStatus() {
   try {
-    const res = await fetch('http://localhost:3000/Users');
-    const users = await res.json();
-    const user = users.find(u => u.Email.toLowerCase() === userEmail.toLowerCase());
-    if (user) {
-      currentUserId = user.id;
-      populateFormFields(user);
+    const res   = await fetch('http://localhost:3000/Users');       // GET all users
+    const users = await res.json();                                 // Array of users
+
+    // Case‑insensitive email match to find existing user
+    const user  = users.find(u => u.Email.toLowerCase() === userEmail.toLowerCase());
+
+    if (user) {                                                     // Existing record?
+      currentUserId = user.id;                                      // Store id for PATCH
+      populateFormFields(user);                                     // Pre‑fill form
     }
-    // Always show edit form directly
-    showForm(user);
+
+    showForm(user);                                                 // Show editable form
   } catch (err) {
     console.error('[userProfileForm.js] Error loading profile:', err);
   }
 }
 
+/* ------------------------------------------------------------------ */
+/*              Show edit form (always, view mode removed)            */
+/* ------------------------------------------------------------------ */
 function showForm(user = {}) {
-  document.getElementById('profileFormWrapper').classList.remove('d-none');
-  document.getElementById('editButtonWrapper').classList.add('d-none');
-  document.getElementById('profileDisplay').classList.add('d-none');
+  document.getElementById('profileFormWrapper').classList.remove('d-none'); // Show form
+  document.getElementById('editButtonWrapper').classList.add('d-none');     // Hide edit btn
+  document.getElementById('profileDisplay').classList.add('d-none');        // Hide display view
 
-  populateFormFields(user);
+  populateFormFields(user);                                         // Ensure fields reflect data
 }
 
+/* ------------------------------------------------------------------ */
+/*                     Submit handler → save profile                  */
+/* ------------------------------------------------------------------ */
 async function saveProfile(event) {
-  event.preventDefault();
+  event.preventDefault();                                           // Stay on SPA page
+
   const form = document.getElementById('profileForm');
-  if (!form.checkValidity()) {
+  if (!form.checkValidity()) {                                      // Bootstrap validation
     form.classList.add('was-validated');
     return;
   }
+
+  /* Build payload from form inputs -------------------------------- */
   const payload = {
-    Email: document.getElementById('email').value.trim(),
-    Name: document.getElementById('name').value.trim(),
-    phone: document.getElementById('phone').value.trim(),
-    department: document.getElementById('department').value,
+    Email      : document.getElementById('email').value.trim(),
+    Name       : document.getElementById('name').value.trim(),
+    phone      : document.getElementById('phone').value.trim(),
+    department : document.getElementById('department').value,
     designation: document.getElementById('designation').value.trim(),
-    address: document.getElementById('address').value.trim()
+    address    : document.getElementById('address').value.trim()
   };
+
   try {
-    // Search for existing user by email using json-server query
-    const searchRes = await fetch(`http://localhost:3000/Users?Email=${encodeURIComponent(payload.Email)}`);
+    /* ---- Check if user already exists (search by email) --------- */
+    const searchRes = await fetch(
+      `http://localhost:3000/Users?Email=${encodeURIComponent(payload.Email)}`
+    );
     const users = await searchRes.json();
-    if (users.length > 0) {
+
+    if (users.length > 0) {                                         // Existing record → PATCH
       currentUserId = users[0].id;
-      // Update existing user record
       await fetch(`http://localhost:3000/Users/${currentUserId}`, {
-        method: 'PATCH',
+        method : 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body   : JSON.stringify(payload)
       });
-    } else {
-      // Create new user record
+    } else {                                                        // New record → POST
       const createRes = await fetch('http://localhost:3000/Users', {
-        method: 'POST',
+        method : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body   : JSON.stringify(payload)
       });
       const newUser = await createRes.json();
-      currentUserId = newUser.id;
+      currentUserId = newUser.id;                                   // Store new id
     }
-    checkProfileStatus();
+
+    checkProfileStatus();                                           // Refresh UI with latest data
   } catch (err) {
     console.error('[userProfileForm.js] Error saving profile:', err);
-    alert('Unable to save profile. Please try again.');
+    alert('Unable to save profile. Please try again.');             // Notify user
   }
 }
