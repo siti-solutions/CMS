@@ -38,6 +38,12 @@ initDashboard(); // Kick off initialization immediately after script load
  *  • Hooks up search, status filter, and pagination events.
  */
 async function initDashboard() { // Entry point for page setup
+  // Redirect to login if no user email is found
+  const userEmail = sessionStorage.getItem('userEmail');
+  if (!userEmail) {
+    window.location.href = 'login.html';
+    return;
+  }
   await updateCountsAndCharts(); // Load data and draw charts
   renderComplaintTable();        // Build the table for the first time
 

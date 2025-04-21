@@ -1,11 +1,14 @@
 (function () {                    // Wrap in IIFE to avoid leaking vars
   'use strict';                   // Safer JavaScript
   console.log('[trackComplaintStatus] Script loaded');
-
+  const userEmail = sessionStorage.getItem('userEmail');
+  if (!userEmail) {
+    window.location.href = 'login.html';
+    return;
+  }
   /* ---------------------------------------------------------------- */
   /*                Retrieve logged‑in user context                   */
   /* ---------------------------------------------------------------- */
-  const userEmail = sessionStorage.getItem('userEmail');        // Unique identifier
   console.log('[trackComplaintStatus] Logged‑in userEmail:', userEmail);
 
   /* ---------------------------------------------------------------- */
