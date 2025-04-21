@@ -6,7 +6,7 @@
 //   • DOMContentLoaded → cache form elements, attach validators & submit handler.
 //   • Real‑time field validation on blur (username, email, password, confirm).
 //   • Email uniqueness check via GET /Users.
-//   • On submit: run all validators, build payload, POST to /Users, then redirect.
+//   • On submit: run all validators, build requestBody, POST to /Users, then redirect.
 //
 // Validation rules:
 //   • Username ≥ 4 characters.
@@ -153,22 +153,22 @@ async function registerUser(event) {
     return;                                                         // Halt submission
   }
 
-  /* ---- Build payload for POST ---------------------------------- */
-  const payload = {
+  /* ---- Build requestBody for POST ---------------------------------- */
+  const requestBody = {
     UserID  : Date.now(),                                           // Simple timestamp ID
     Name    : document.getElementById('username').value.trim(),
     Email   : document.getElementById('email').value.trim(),
     Password: document.getElementById('password').value,
     UserType: document.getElementById('role').value                 // 'Admin' | 'User'
   };
-  console.log('[registerForm.js] Payload:', payload);
+  console.log('[registerForm.js] requestBody:', requestBody);
 
   /* ---- POST to backend ----------------------------------------- */
   try {
     await fetch(API_URL, {
       method : 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body   : JSON.stringify(payload)
+      body   : JSON.stringify(requestBody)
     });
     window.location.href = 'login.html';                            // Go to login
   } catch (err) {

@@ -6,7 +6,7 @@
 //   • Dynamically shows complaint‑type options when a department is chosen.
 //   • Auto‑calculates the next ComplaintID (incremental).
 //   • Shows/ hides file‑upload section for specific departments.
-//   • Submits the complaint payload to /Complaints and resets the form.
+//   • Submits the complaint requestBody to /Complaints and resets the form.
 
 'use strict';                                                   // Enable strict mode
 
@@ -140,8 +140,8 @@ async function onSubmit(evt) {
   const userEmail = sessionStorage.getItem('userEmail') || 'anonymous@example.com';
   const userName  = sessionStorage.getItem('userName')  || 'Anonymous';
 
-  /* ------- Build request payload ------------------------------ */
-  const payload = {
+  /* ------- Build request requestBody ------------------------------ */
+  const requestBody = {
     ComplaintID     : nextComplaintID, // Newly computed ID
     DeptID          : deptId,          // FK to Departments
     CTID            : CTID,            // FK to ComplaintTypes
@@ -160,7 +160,7 @@ async function onSubmit(evt) {
     await fetch(`${apiBase}/Complaints`, {
       method : 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body   : JSON.stringify(payload)
+      body   : JSON.stringify(requestBody)
     });
     alert('Complaint Submitted Successfully!');                  // Notify success
     form.reset();                                                // Clear fields

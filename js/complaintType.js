@@ -53,8 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    /* Build payload ------------------------------------------------- */
-    const payload = {
+    /* Build requestBody ------------------------------------------------- */
+    const requestBody = {
       ComplaintType: typeInput.value.trim(),
       severity     : severityInput.value
     };
@@ -64,13 +64,13 @@ document.addEventListener('DOMContentLoaded', () => {
         await fetch(`${apiUrl}/${editId}`, {
           method : 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body   : JSON.stringify(payload)
+          body   : JSON.stringify(requestBody)
         });
       } else {      /* ---------- CREATE new ------------------------ */
         await fetch(apiUrl, {
           method : 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body   : JSON.stringify(payload)
+          body   : JSON.stringify(requestBody)
         });
       }
       resetForm();  // Clear form / reset state

@@ -84,8 +84,8 @@ async function saveProfile(event) {
     return;
   }
 
-  /* Build payload from form inputs -------------------------------- */
-  const payload = {
+  /* Build requestBody from form inputs -------------------------------- */
+  const requestBody = {
     Email      : document.getElementById('email').value.trim(),
     Name       : document.getElementById('name').value.trim(),
     phone      : document.getElementById('phone').value.trim(),
@@ -97,7 +97,7 @@ async function saveProfile(event) {
   try {
     /* ---- Check if user already exists (search by email) --------- */
     const searchRes = await fetch(
-      `http://localhost:3000/Users?Email=${encodeURIComponent(payload.Email)}`
+      `http://localhost:3000/Users?Email=${encodeURIComponent(requestBody.Email)}`
     );
     const users = await searchRes.json();
 
@@ -106,13 +106,13 @@ async function saveProfile(event) {
       await fetch(`http://localhost:3000/Users/${currentUserId}`, {
         method : 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body   : JSON.stringify(payload)
+        body   : JSON.stringify(requestBody)
       });
     } else {                                                        // New record → POST
       const createRes = await fetch('http://localhost:3000/Users', {
         method : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body   : JSON.stringify(payload)
+        body   : JSON.stringify(requestBody)
       });
       const newUser = await createRes.json();
       currentUserId = newUser.id;                                   // Store new id

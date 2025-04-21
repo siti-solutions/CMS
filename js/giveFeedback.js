@@ -88,20 +88,20 @@
       return;
     }
 
-    /* Build payload for API */
-    const payload = {
+    /* Build requestBody for API */
+    const requestBody = {
       complaintId,
       rating  : ratingEl.value,
       comments
     };
-    console.log('[giveFeedback.js] Submitting feedback:', payload);
+    console.log('[giveFeedback.js] Submitting feedback:', requestBody);
 
     try {
       /* POST feedback */
       await fetch('http://localhost:3000/Feedback', {
         method : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body   : JSON.stringify(payload)
+        body   : JSON.stringify(requestBody)
       });
       alert('Thank you for your feedback!');   // Notify user
       formEl.reset();                         // Reset form
