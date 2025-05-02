@@ -26,11 +26,6 @@
                 <input type="text" class="form-control" placeholder="Name" id="name" required />
                 <input type="email" class="form-control" placeholder="Email" id="email" required />
                 <input type="password" class="form-control" placeholder="Password" id="password" required />
-                <select class="form-control" id="userType" required>
-                    <option value="" disabled selected>Select User Type</option>
-                    <option value="Admin">Admin</option>
-                    <option value="User">User</option>
-                </select>
                 <input type="text" class="form-control" placeholder="Phone" id="phone" required />
                 <select class="form-control" id="department" required>
                     <option value="" disabled selected>Select Department</option>
@@ -93,7 +88,7 @@
                 Name: document.getElementById("name").value.trim(),
                 Email: email,
                 Password: document.getElementById("password").value.trim(),
-                UserType: document.getElementById("userType").value,
+                UserType: "User",
                 phone: document.getElementById("phone").value.trim(),
                 department: document.getElementById("department").value,
                 designation: document.getElementById("designation").value.trim(),
