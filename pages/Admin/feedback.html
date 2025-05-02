@@ -44,10 +44,11 @@
   document.getElementById("userName").textContent = (JSON.parse(localStorage.getItem("user")) || {}).name || "Admin";
 
   function logout() {
-    localStorage.clear();
-    sessionStorage.clear();
-    window.location.href = "../../login.html";
-  }
+      localStorage.clear();
+      sessionStorage.clear();
+      location.reload(true);
+      window.location.href = "../login.html";
+    }
 
   async function fetchData() {
     const [feedbacks, complaints] = await Promise.all([

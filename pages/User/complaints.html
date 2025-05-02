@@ -22,13 +22,17 @@
     <div class="content">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>My Complaints</h2>
-        <button class="btn btn-success" onclick="openForm()">Add Complaint</button>
       </div>
 
-      <div class="row mb-3">
-        <div class="col-md-3"><input class="form-control" placeholder="Search..." oninput="renderTable()" id="searchInput" /></div>
-        <div class="col-md-3"><select class="form-select" id="deptFilter" onchange="renderTable()"><option value="">All Departments</option></select></div>
-        <div class="col-md-3"><select class="form-select" id="typeFilter" onchange="renderTable()"><option value="">All Complaint Types</option></select></div>
+      <div class="d-flex align-items-center gap-2 mb-3 flex-nowrap">
+        <input class="form-control" placeholder="Search..." oninput="renderTable()" id="searchInput" />
+        <select class="form-select" id="deptFilter" onchange="renderTable()" style="width: 200px;">
+          <option value="">All Departments</option>
+        </select>
+        <select class="form-select" id="typeFilter" onchange="renderTable()" style="width: 200px;">
+          <option value="">All Complaint Types</option>
+        </select>
+        <button class="btn btn-success flex-shrink-0" onclick="openForm()">Add Complaint</button>
       </div>
 
       <div class="table-responsive">

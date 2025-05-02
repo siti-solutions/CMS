@@ -70,6 +70,7 @@
     function logout() {
       localStorage.clear();
       sessionStorage.clear();
+      location.reload(true);
       window.location.href = "../login.html";
     }
 
