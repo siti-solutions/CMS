@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Complaint Types</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="../../../style.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="wrapper">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header" id="userName">Admin</div>
+      <a href="analytics.html" class="nav-link"><i class="bi bi-bar-chart-line me-2"></i>Analytics</a>
+      <a href="complaints.html" class="nav-link"><i class="bi bi-clipboard me-2"></i>Complaints</a>
+      <a href="complaintTypes.html" class="nav-link"><i class="bi bi-list-ul me-2"></i>Complaint Types</a>
+      <a href="departments.html" class="nav-link"><i class="bi bi-building me-2"></i>Departments</a>
+      <a href="feedback.html" class="nav-link"><i class="bi bi-building me-2"></i>Feedback</a>
+      <a href="users.html" class="nav-link"><i class="bi bi-people me-2"></i>Users</a>
+      <a href="profile.html" class="nav-link"><i class="bi bi-person me-2"></i>Profile</a>
+      <div class="logout" onclick="logout()"><i class="bi bi-box-arrow-right me-2"></i>Logout</div>
+    </div>
+
+    <div class="content">
+      <h2 class="mb-3">Complaint Types</h2>
+      <div class="d-flex align-items-center gap-2 mb-3 flex-nowrap" style="height: 48px;">
+        <input type="text" class="form-control flex-shrink-1" id="searchInput" placeholder="Search..." oninput="renderTable()" style="height: 100%;" />
+        <select id="filterDept" class="form-select flex-shrink-0" style="width: 200px; height: 100%;" onchange="renderTable()">
+          <option value="">All Departments</option>
+        </select>
+        <button class="btn btn-primary flex-shrink-0" style="height: 100%;" onclick="openForm()">Add Complaint Type</button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th onclick="sortBy('CTID')" style="cursor:pointer"><span>ID</span> <i class="bi bi-chevron-down ms-1"></i></th>
+              <th onclick="sortBy('ComplaintType')" style="cursor:pointer"><span>Type</span> <i class="bi bi-chevron-down ms-1"></i></th>
+              <th onclick="sortBy('severity')" style="cursor:pointer"><span>Severity</span> <i class="bi bi-chevron-down ms-1"></i></th>
+              <th onclick="sortBy('DeptID')" style="cursor:pointer"><span>Department</span> <i class="bi bi-chevron-down ms-1"></i></th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="typeBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="popup d-none" id="formPopup">
+    <div class="popup-card">
+      <h5 id="formTitle">Add Complaint Type</h5>
+      <form id="typeForm">
+        <input type="hidden" id="editId" />
+        <input type="text" class="form-control mb-2" id="formType" placeholder="Complaint Type" required />
+        <select class="form-control mb-2" id="formSeverity" required>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+        <div class="position-relative mb-3">
+          <select class="form-control" id="formDept" required>
+            <option value="">Select Department</option>
+          </select>
+          <i class="bi bi-chevron-down position-absolute end-0 top-50 translate-middle-y me-3"></i>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button type="button" class="btn btn-secondary me-2" onclick="closeForm()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("user")) || {};
+    document.getElementById("userName").textContent = user.name || "Admin";
+
+    let types = [], departments = [], sortColumn = "", sortAsc = true;
+
+    function logout() {
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = "../../login.html";
+    }
+
+    async function fetchData() {
+      const [ctRes, deptRes] = await Promise.all([
+        fetch("http://localhost:3000/ComplaintTypes").then(r => r.json()),
+        fetch("http://localhost:3000/Departments").then(r => r.json())
+      ]);
+      types = ctRes;
+      departments = deptRes;
+      const deptSel = document.getElementById("formDept");
+      deptSel.innerHTML = '<option value="">Select Department</option>';
+      departments.forEach(d => {
+        deptSel.appendChild(new Option(d.Name, d.DeptID));
+      });
+      // Populate filterDept dropdown as well
+      const filterDeptSel = document.getElementById("filterDept");
+      filterDeptSel.innerHTML = '<option value="">All Departments</option>';
+      departments.forEach(d => {
+        filterDeptSel.appendChild(new Option(d.Name, d.DeptID));
+      });
+      renderTable();
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById("typeBody");
+      tbody.innerHTML = "";
+      const keyword = document.getElementById("searchInput").value.toLowerCase();
+      const filterDept = document.getElementById("filterDept").value;
+
+      let data = types.filter(t => {
+        const deptName = departments.find(d => d.DeptID == t.DeptID)?.Name || "";
+        const matchesSearch = (
+          (t.ComplaintType || "").toLowerCase().includes(keyword) ||
+          (t.severity || "").toLowerCase().includes(keyword) ||
+          deptName.toLowerCase().includes(keyword)
+        );
+        const matchesDept = !filterDept || t.DeptID == filterDept;
+        return matchesSearch && matchesDept;
+      });
+
+      if (sortColumn) {
+        data.sort((a, b) => {
+          let aVal = a[sortColumn];
+          let bVal = b[sortColumn];
+          if (sortColumn === 'DeptID') {
+            const aDept = departments.find(d => d.DeptID == aVal)?.Name || "";
+            const bDept = departments.find(d => d.DeptID == bVal)?.Name || "";
+            aVal = aDept.toLowerCase();
+            bVal = bDept.toLowerCase();
+          } else {
+            aVal = (aVal || "").toString().toLowerCase();
+            bVal = (bVal || "").toString().toLowerCase();
+          }
+          return sortAsc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+        });
+      }
+      data.forEach(t => {
+        const deptName = departments.find(d => d.DeptID == t.DeptID)?.Name || "-";
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${t.CTID ?? "-"}</td>
+          <td>${t.ComplaintType ?? "-"}</td>
+          <td>${t.severity ?? "-"}</td>
+          <td>${deptName}</td>
+          <td class="text-end">
+            <button class="btn btn-sm btn-outline-primary" onclick='editType(${JSON.stringify(t)})'><i class="bi bi-pencil-square"></i></button>
+            <button class="btn btn-sm btn-outline-danger" onclick='deleteType("${t.id}")'><i class="bi bi-trash"></i></button>
+          </td>`;
+        tbody.appendChild(row);
+      });
+    }
+
+    function openForm() {
+      document.getElementById("typeForm").reset();
+      document.getElementById("editId").value = "";
+      document.getElementById("formTitle").textContent = "Add Complaint Type";
+      document.getElementById("formPopup").classList.remove("d-none");
+    }
+
+    function closeForm() {
+      document.getElementById("formPopup").classList.add("d-none");
+    }
+
+    function editType(t) {
+      document.getElementById("editId").value = t.id;
+      document.getElementById("formType").value = t.ComplaintType || "";
+      document.getElementById("formSeverity").value = t.severity || "Low";
+      document.getElementById("formDept").value = t.DeptID || "";
+      document.getElementById("formTitle").textContent = "Edit Complaint Type";
+      document.getElementById("formPopup").classList.remove("d-none");
+    }
+
+    async function deleteType(id) {
+      if (!confirm("Delete this complaint type?")) return;
+      await fetch(`http://localhost:3000/ComplaintTypes/${id}`, { method: "DELETE" });
+      types = types.filter(t => t.id !== id);
+      renderTable();
+    }
+
+    document.getElementById("typeForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const payload = {
+        ComplaintType: document.getElementById("formType").value,
+        severity: document.getElementById("formSeverity").value,
+        DeptID: document.getElementById("formDept").value
+      };
+      const id = document.getElementById("editId").value;
+      if (id) {
+        await fetch(`http://localhost:3000/ComplaintTypes/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...payload, id })
+        });
+      } else {
+        const newId = Math.random().toString(36).substring(2, 8);
+        await fetch("http://localhost:3000/ComplaintTypes", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...payload, id: newId })
+        });
+      }
+      await fetchData();
+      closeForm();
+    });
+
+    function sortBy(col) {
+      sortAsc = sortColumn === col ? !sortAsc : true;
+      sortColumn = col;
+      renderTable();
+    }
+
+    fetchData();
+  </script>
+  <footer class="footer bg-light text-center py-2 border-top" style="position: fixed; left: 250px; right: 0; bottom: 0; z-index: 1030;">
+    <small class="text-muted">© 2025 Capgemini Complaint Management System</small>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Departments</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="../../../style.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="wrapper">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header" id="userName">Admin</div>
+      <a href="analytics.html" class="nav-link"><i class="bi bi-bar-chart-line me-2"></i>Analytics</a>
+      <a href="complaints.html" class="nav-link"><i class="bi bi-clipboard me-2"></i>Complaints</a>
+      <a href="complaintTypes.html" class="nav-link"><i class="bi bi-list-ul me-2"></i>Complaint Types</a>
+      <a href="departments.html" class="nav-link"><i class="bi bi-building me-2"></i>Departments</a>
+      <a href="feedback.html" class="nav-link"><i class="bi bi-building me-2"></i>Feedback</a>
+      <a href="users.html" class="nav-link"><i class="bi bi-people me-2"></i>Users</a>
+      <a href="profile.html" class="nav-link"><i class="bi bi-person me-2"></i>Profile</a>
+      <div class="logout" onclick="logout()"><i class="bi bi-box-arrow-right me-2"></i>Logout</div>
+    </div>
+
+    <div class="content">
+      <h2 class="mb-3">Departments</h2>
+      <div class="d-flex align-items-center gap-2 mb-3 flex-nowrap">
+        <input type="text" class="form-control" id="searchInput" placeholder="Search..." oninput="renderTable()" />
+        <button class="btn btn-primary flex-shrink-0" style="height: 100%;" onclick="openForm()">Add Department</button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th onclick="sortBy('DeptID')"><span>ID</span> <i class="bi bi-chevron-down ms-1"></i></th>
+              <th onclick="sortBy('Name')"><span>Name</span> <i class="bi bi-chevron-down ms-1"></i></th>
+              <th onclick="sortBy('Contact')"><span>Contact</span> <i class="bi bi-chevron-down ms-1"></i></th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="deptBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="popup d-none" id="formPopup">
+    <div class="popup-card">
+      <h5 id="formTitle">Add Department</h5>
+      <form id="deptForm">
+        <input type="hidden" id="editId" />
+        <input type="text" class="form-control mb-2" id="formName" placeholder="Department Name" required />
+        <input type="email" class="form-control mb-3" id="formContact" placeholder="Contact Email" required />
+        <div class="d-flex justify-content-end">
+          <button type="button" class="btn btn-secondary me-2" onclick="closeForm()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("user")) || {};
+    document.getElementById("userName").textContent = user.name || "Admin";
+
+    let departments = [], sortColumn = "", sortAsc = true;
+
+    function logout() {
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = "../../login.html";
+    }
+
+    async function fetchData() {
+      const res = await fetch("http://localhost:3000/Departments");
+      departments = await res.json();
+      renderTable();
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById("deptBody");
+      tbody.innerHTML = "";
+      const keyword = document.getElementById("searchInput") ? document.getElementById("searchInput").value.toLowerCase() : "";
+      let data = departments.filter(d =>
+        (d.Name || "").toLowerCase().includes(keyword) ||
+        (d.Contact || "").toLowerCase().includes(keyword)
+      );
+      if (sortColumn) {
+        data.sort((a, b) => {
+          const aVal = (a[sortColumn] || "").toString().toLowerCase();
+          const bVal = (b[sortColumn] || "").toString().toLowerCase();
+          return sortAsc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+        });
+      }
+      data.forEach(d => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${d.DeptID ?? "-"}</td>
+          <td>${d.Name ?? "-"}</td>
+          <td>${d.Contact ?? "-"}</td>
+          <td class="text-end">
+            <button class="btn btn-sm btn-outline-primary" onclick='editDept(${JSON.stringify(d)})'><i class="bi bi-pencil-square"></i></button>
+            <button class="btn btn-sm btn-outline-danger" onclick='deleteDept("${d.id}")'><i class="bi bi-trash"></i></button>
+          </td>`;
+        tbody.appendChild(row);
+      });
+    }
+
+    function openForm() {
+      document.getElementById("deptForm").reset();
+      document.getElementById("editId").value = "";
+      document.getElementById("formTitle").textContent = "Add Department";
+      document.getElementById("formPopup").classList.remove("d-none");
+    }
+
+    function closeForm() {
+      document.getElementById("formPopup").classList.add("d-none");
+    }
+
+    function editDept(d) {
+      document.getElementById("editId").value = d.id;
+      document.getElementById("formName").value = d.Name || "-";
+      document.getElementById("formContact").value = d.Contact || "-";
+      document.getElementById("formTitle").textContent = "Edit Department";
+      document.getElementById("formPopup").classList.remove("d-none");
+    }
+
+    async function deleteDept(id) {
+      if (!confirm("Delete this department?")) return;
+      await fetch(`http://localhost:3000/Departments/${id}`, { method: "DELETE" });
+      departments = departments.filter(d => d.id !== id);
+      renderTable();
+    }
+
+    document.getElementById("deptForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const payload = {
+        Name: document.getElementById("formName").value,
+        Contact: document.getElementById("formContact").value
+      };
+      const id = document.getElementById("editId").value;
+      if (id) {
+        await fetch(`http://localhost:3000/Departments/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...payload, id })
+        });
+      } else {
+        const newId = Math.random().toString(36).substring(2, 8);
+        await fetch("http://localhost:3000/Departments", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...payload, id: newId })
+        });
+      }
+      await fetchData();
+      closeForm();
+    });
+
+    function sortBy(col) {
+      sortAsc = sortColumn === col ? !sortAsc : true;
+      sortColumn = col;
+      renderTable();
+    }
+
+    fetchData();
+  </script>
+</body>
+  <footer class="footer bg-light text-center py-2 border-top" style="position: fixed; left: 250px; right: 0; bottom: 0; z-index: 1030;">
+    <small class="text-muted">© 2025 Capgemini Complaint Management System</small>
+  </footer>
+</html>
