@@ -99,15 +99,27 @@
       const typeSel = document.getElementById("typeFilter");
       const formDept = document.getElementById("formDept");
 
-      departments.forEach(d => {
-        const opt = new Option(d.Name, d.DeptID);
-        deptSel.appendChild(opt);
-        formDept.appendChild(opt.cloneNode(true));
-      });
+      // Clear existing options except the first one
+      deptSel.length = 1;
+      typeSel.length = 1;
+      formDept.length = 1;
 
-      types.forEach(t => {
-        typeSel.appendChild(new Option(t.ComplaintType, t.CTID));
-      });
+      const usedDeptIds = [...new Set(complaints.map(c => c.DeptID))];
+      const usedTypeIds = [...new Set(complaints.map(c => c.CTID))];
+
+      departments
+        .filter(d => usedDeptIds.includes(d.DeptID))
+        .forEach(d => {
+          const opt = new Option(d.Name, d.DeptID);
+          deptSel.appendChild(opt);
+          formDept.appendChild(opt.cloneNode(true));
+        });
+
+      types
+        .filter(t => usedTypeIds.includes(t.CTID))
+        .forEach(t => {
+          typeSel.appendChild(new Option(t.ComplaintType, t.CTID));
+        });
     }
 
     function loadTypeOptions(deptId) {

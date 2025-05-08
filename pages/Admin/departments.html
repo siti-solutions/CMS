@@ -26,6 +26,9 @@
       <h2 class="mb-3">Departments</h2>
       <div class="d-flex align-items-center gap-2 mb-3 flex-nowrap">
         <input type="text" class="form-control" id="searchInput" placeholder="Search..." oninput="renderTable()" />
+        <button class="btn btn-outline-secondary flex-shrink-0" id="downloadReport" onclick="downloadReport()" title="Download Report">
+          <span id="downloadIcon"><i class="bi bi-download"></i></span>
+        </button>
         <button class="btn btn-primary flex-shrink-0" style="height: 100%;" onclick="openForm()">Add Department</button>
       </div>
 
@@ -36,6 +39,7 @@
               <th onclick="sortBy('DeptID')"><span>ID</span> <i class="bi bi-chevron-down ms-1"></i></th>
               <th onclick="sortBy('Name')"><span>Name</span> <i class="bi bi-chevron-down ms-1"></i></th>
               <th onclick="sortBy('Contact')"><span>Contact</span> <i class="bi bi-chevron-down ms-1"></i></th>
+              <th>Complaints</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -79,7 +83,7 @@
       renderTable();
     }
 
-    function renderTable() {
+    async function renderTable() {
       const tbody = document.getElementById("deptBody");
       tbody.innerHTML = "";
       const keyword = document.getElementById("searchInput") ? document.getElementById("searchInput").value.toLowerCase() : "";
@@ -94,12 +98,29 @@
           return sortAsc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
         });
       }
+      let complaintCounts = {};
+      try {
+        const res = await fetch("http://localhost:3000/Complaints");
+        const complaints = await res.json();
+        complaints.forEach(c => {
+          complaintCounts[c.DeptID] = (complaintCounts[c.DeptID] || 0) + 1;
+        });
+      } catch (e) {
+        console.error("Failed to fetch complaints", e);
+      }
       data.forEach(d => {
+        const complaintCount = complaintCounts[d.DeptID] || 0;
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${d.DeptID ?? "-"}</td>
           <td>${d.Name ?? "-"}</td>
           <td>${d.Contact ?? "-"}</td>
+          <td>
+            ${complaintCount}
+            <button class="btn btn-sm btn-outline-secondary ms-2" title="Download Report" onclick="downloadDepartmentReport(${d.DeptID})">
+              <i class="bi bi-download"></i>
+            </button>
+          </td>
           <td class="text-end">
             <button class="btn btn-sm btn-outline-primary" onclick='editDept(${JSON.stringify(d)})'><i class="bi bi-pencil-square"></i></button>
             <button class="btn btn-sm btn-outline-danger" onclick='deleteDept("${d.id}")'><i class="bi bi-trash"></i></button>
@@ -163,6 +184,58 @@
       sortAsc = sortColumn === col ? !sortAsc : true;
       sortColumn = col;
       renderTable();
+    }
+
+    async function downloadReport() {
+      const icon = document.getElementById("downloadIcon");
+      icon.innerHTML = `<span class="spinner-border spinner-border-sm"></span>`;
+
+      try {
+        const res = await fetch("http://localhost:3000/Complaints");
+        const allComplaints = await res.json();
+        const filtered = allComplaints.filter(c => c.DeptID && departments.find(d => d.DeptID == c.DeptID));
+
+        const reportRes = await fetch("http://localhost:3001/generate-pdf", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ complaints: filtered })
+        });
+        const data = await reportRes.json();
+        if (data && data.url) window.open(data.url, "_blank");
+      } catch (err) {
+        alert("Failed to generate PDF report.");
+      } finally {
+        icon.innerHTML = `<i class="bi bi-download"></i>`;
+      }
+    }
+
+    async function downloadDepartmentReport(deptId) {
+      const btn = event.currentTarget;
+      const icon = btn.querySelector("i");
+      icon.classList.remove("bi-download");
+      icon.classList.add("spinner-border", "spinner-border-sm");
+
+      try {
+        const res = await fetch("http://localhost:3000/Complaints");
+        const allComplaints = await res.json();
+        const filtered = allComplaints.filter(c => c.DeptID == deptId);
+
+        const dept = departments.find(d => d.DeptID == deptId);
+        const departmentName = dept ? dept.Name : "Department";
+
+        const reportRes = await fetch("http://localhost:3001/generate-pdf", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ complaints: filtered, department: departmentName })
+        });
+        const data = await reportRes.json();
+        if (data && data.url) window.open(data.url, "_blank");
+      } catch (err) {
+        alert("Failed to generate department PDF.");
+      } finally {
+        icon.classList.remove("spinner-border", "spinner-border-sm");
+        icon.classList.add("bi-download");
+      }
     }
 
     fetchData();
